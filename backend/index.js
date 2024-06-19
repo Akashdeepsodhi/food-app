@@ -1,6 +1,7 @@
 
 global.foodData = require('./db')(function call(err, data, CatData) {
-  // console.log(data)
+  console.log(data)
+
   if(err) console.log(err);
   global.foodData = data;
   global.foodCategory = CatData;

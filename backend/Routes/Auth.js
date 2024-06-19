@@ -8,8 +8,8 @@ var jwt = require('jsonwebtoken');
 const axios = require('axios')
 const fetch = require('../middleware/fetchdetails');
 const jwtSecret = "HaHa"
-// var foodItems= require('../index').foodData;
-// require("../index")
+ var foodItems= require('../index').foodData;
+ require("../index")
 //Creating a user and storing data to MongoDB Atlas, No Login Requiered
 router.post('/createuser', [
     body('email').isEmail(),
@@ -21,8 +21,8 @@ router.post('/createuser', [
     if (!errors.isEmpty()) {
         return res.status(400).json({ success, errors: errors.array() })
     }
-    // console.log(req.body)
-    // let user = await User.findOne({email:req.body.email})
+     console.log(req.body)
+     let user = await User.findOne({email:req.body.email})
     const salt = await bcrypt.genSalt(10)
     let securePass = await bcrypt.hash(req.body.password, salt);
     try {
@@ -132,16 +132,16 @@ router.post('/getlocation', async (req, res) => {
 })
 router.post('/foodData', async (req, res) => {
     try {
-        // console.log( JSON.stringify(global.foodData))
-        // const userId = req.user.id;
-        // await database.listCollections({name:"food_items"}).find({});
-        res.send([global.foodData, global.foodCategory])
+      console.log(JSON.stringify(global.food_items));
+      //const userId = req.user.id;
+      //await database.listCollections({ name: "foodcollections" }).find({});
+      res.json([global.food_items, global.foodCategory]);
     } catch (error) {
-        console.error(error.message)
-        res.send("Server Error")
-
+      console.error(error.message);
+      res.status(500).json({ error: "Server Error" });
     }
-})
+  });
+  
 
 router.post('/orderData', async (req, res) => {
     let data = req.body.order_data
